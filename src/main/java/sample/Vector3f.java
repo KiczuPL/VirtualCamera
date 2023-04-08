@@ -1,10 +1,8 @@
 package main.java.sample;
 
-import lombok.Data;
 
 import java.util.Arrays;
 
-@Data
 public class Vector3f {
     private double[] vector;
 
@@ -14,6 +12,23 @@ public class Vector3f {
 
     public Vector3f(double x, double y, double z) {
         this.vector = new double[]{x, y, z, 1.f};
+    }
+
+    public Vector3f(double[] vector) {
+        this.vector = vector;
+    }
+
+    public void transform(Matrix matrix){
+        vector=matrix.multiplyByVector(vector);
+    }
+
+    public Vector3f projectTo2D(double screenWidth, double screenHeight, double fov) {
+        Vector3f v = new Vector3f(
+                screenWidth / 2d + (getX() * fov) / (getZ() > 0 ? getZ() : -getZ()),
+                screenHeight / 2d - (getY() * fov) / (getZ()  > 0 ? getZ() : -getZ()),
+                0);
+        //System.out.println(v.toString());
+        return v;
     }
 
     public double getX() {
@@ -28,12 +43,39 @@ public class Vector3f {
         return vector[2];
     }
 
-    public void transform(Matrix matrix){
-        //System.out.println("matrix: "+matrix.toString());
+    public double getW() {
+        return vector[3];
+    }
 
-        //System.out.println("Przed "+Arrays.toString(vector));
-        vector=matrix.multiplyByVector(vector);
-        //System.out.println("Po "+Arrays.toString(vector));
+    public void setX(double x) {
+        vector[0] = x;
+    }
+
+    public void setY(double y) {
+        vector[1] = y;
+    }
+
+    public void setZ(double z) {
+        vector[2] = z;
+    }
+
+    public void setW(double w) {
+        vector[3] = w;
+    }
+
+    public void setWAndScale(double w){
+        vector[0]= vector[0] * (w/vector[3]);
+        vector[1]= vector[1] * (w/vector[3]);
+        vector[2]= vector[2] * (w/vector[3]);
+        setW(w);
+    }
+
+    public double[] getVector() {
+        return vector;
+    }
+
+    public void setVector(double[] vector) {
+        this.vector = vector;
     }
 
     @Override

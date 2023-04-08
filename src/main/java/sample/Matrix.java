@@ -22,10 +22,29 @@ public class Matrix {
         return this;
     }
 
-    public Matrix buildRotationMatrix(double dx, double dy, double dz) {
-        set(0, 3, dx);
-        set(1, 3, dy);
-        set(2, 3, dz);
+    public Matrix buildRotationMatrix(double phi,RotationType rotationType) {
+        switch (rotationType){
+            case X_AXIS -> {
+                set(1,1,Math.cos(phi));
+                set(1,2,-Math.sin(phi));
+                set(2,1,Math.sin(phi));
+                set(2,2,Math.cos(phi));
+            }
+            case Y_AXIS -> {
+                set(0,0,Math.cos(phi));
+                set(2,0,-Math.sin(phi));
+                set(0,2,Math.sin(phi));
+                set(2,2,Math.cos(phi));
+
+            }
+            case Z_AXIS -> {
+                set(0,0,Math.cos(phi));
+                set(0,1,-Math.sin(phi));
+                set(1,0,Math.sin(phi));
+                set(1,1,Math.cos(phi));
+            }
+        }
+
         return this;
     }
 
@@ -79,6 +98,10 @@ public class Matrix {
             result[row] = sum;
         }
         return result;
+    }
+
+    public Vector3f multiplyByVector(Vector3f v){
+        return  new Vector3f(multiplyByVector(v.getVector()));
     }
 
 }

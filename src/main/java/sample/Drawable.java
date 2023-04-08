@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface Drawable {
 
-    List<Triangle> getTriangleList();
+    List<Edge> getEdgeList();
+    List<Vector3f> getPointList();
 }
