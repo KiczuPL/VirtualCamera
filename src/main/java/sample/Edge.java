@@ -50,6 +50,10 @@ public class Edge {
         );
     }
 
+    public boolean isVisible(){
+        return start.getZ()>0 || end.getZ() > 0;
+    }
+
     public Color getColor() {
         return color;
     }

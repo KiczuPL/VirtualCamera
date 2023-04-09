@@ -32,10 +32,12 @@ public class VirtualCameraListener {
 
     private EventHandler<KeyEvent> keyPressedHandler;
     private EventHandler<KeyEvent> keyReleasedHandler;
+    TransformationMatrix transformationMatrix;
 
     public VirtualCameraListener( VirtualCamera camera, World world) {
         this.camera = camera;
         this.world = world;
+        transformationMatrix = new TransformationMatrix();
         keyPressedHandler=buildKeyPressedHandler();
         keyReleasedHandler=buildKeyReleasedHandler();
     }
@@ -43,33 +45,40 @@ public class VirtualCameraListener {
     public Matrix buildTransformationMatrix() {
         Matrix transformation = new Matrix(4, 4);
         if (moveForward)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_FORWARD);
+            transformation = transformation.multiply(transformationMatrix.MOVE_FORWARD);
         if (moveBackward)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_BACKWARD);
+            transformation = transformation.multiply(transformationMatrix.MOVE_BACKWARD);
         if (moveLeft)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_LEFT);
+            transformation = transformation.multiply(transformationMatrix.MOVE_LEFT);
         if (moveRight)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_RIGHT);
+            transformation = transformation.multiply(transformationMatrix.MOVE_RIGHT);
         if (moveDown)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_DOWN);
+            transformation = transformation.multiply(transformationMatrix.MOVE_DOWN);
         if (moveUp)
-            transformation = transformation.multiply(TransformationMatrix.MOVE_UP);
+            transformation = transformation.multiply(transformationMatrix.MOVE_UP);
         if (rotateUp)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_UP);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_UP);
         if (rotateDown)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_DOWN);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_DOWN);
         if (rotateLeft)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_LEFT);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_LEFT);
         if (rotateRight)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_RIGHT);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_RIGHT);
         if (rotateClockwise)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_COUNTERCLOCKWISE);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_COUNTERCLOCKWISE);
         if (rotateCounterclockwise)
-            transformation = transformation.multiply(TransformationMatrix.ROTATE_CLOCKWISE);
-        if (increaseFocal)
-            camera.setFieldOfView(camera.getFieldOfView() * 1.05d);
-        if (decreaseFocal)
-            camera.setFieldOfView(camera.getFieldOfView() / 1.05d);
+            transformation = transformation.multiply(transformationMatrix.ROTATE_CLOCKWISE);
+        if (increaseFocal){
+            double newFocal = camera.getFieldOfView() * 1.05d;
+            camera.setFieldOfView(newFocal);
+            //transformationMatrix.rescaleSteps(newFocal);
+        }
+
+        if (decreaseFocal){
+            double newFocal = camera.getFieldOfView() / 1.05d;
+            camera.setFieldOfView(newFocal);
+            //transformationMatrix.rescaleSteps(newFocal);
+        }
         return transformation;
     }
 

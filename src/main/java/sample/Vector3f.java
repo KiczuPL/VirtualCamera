@@ -26,7 +26,7 @@ public class Vector3f {
         Vector3f v = new Vector3f(
                 screenWidth / 2d + (getX() * fov) / (getZ() > 0 ? getZ() : 1d),
                 screenHeight / 2d - (getY() * fov) / (getZ()  > 0 ? getZ() : 1d),
-                0);
+                getZ());
         //System.out.println(v.toString());
         return v;
     }

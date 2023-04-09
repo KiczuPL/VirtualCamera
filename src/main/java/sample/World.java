@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,13 @@ public class World {
         graphics.setStroke(Paint.valueOf("BLACK"));
         graphics.fillRect(0, 0, screenWidth, screenHeight);
 
-        List<Edge> projectedTriangles = edges.stream().map((edge) -> edge.projectTo2D(screenWidth, screenHeight, fieldOfView)).collect(Collectors.toList());
+        List<Edge> projectedTriangles = edges.stream()
+                .map((edge) -> edge.projectTo2D(screenWidth, screenHeight, fieldOfView))
+                .filter(Edge::isVisible)
+                .sorted(Comparator.comparingDouble(e -> -(e.getStart().getZ() + e.getEnd().getZ()) / 2))
+                .collect(Collectors.toList());
+
+
         projectedTriangles.forEach(triangle -> {
             graphics.setStroke(triangle.getColor());
             graphics.strokeLine(triangle.getStart().getX(), triangle.getStart().getY() , triangle.getEnd().getX() , triangle.getEnd().getY());
