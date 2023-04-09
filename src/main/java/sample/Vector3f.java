@@ -24,8 +24,8 @@ public class Vector3f {
 
     public Vector3f projectTo2D(double screenWidth, double screenHeight, double fov) {
         Vector3f v = new Vector3f(
-                screenWidth / 2d + (getX() * fov) / (getZ() > 0 ? getZ() : -getZ()),
-                screenHeight / 2d - (getY() * fov) / (getZ()  > 0 ? getZ() : -getZ()),
+                screenWidth / 2d + (getX() * fov) / (getZ() > 0 ? getZ() : 1d),
+                screenHeight / 2d - (getY() * fov) / (getZ()  > 0 ? getZ() : 1d),
                 0);
         //System.out.println(v.toString());
         return v;

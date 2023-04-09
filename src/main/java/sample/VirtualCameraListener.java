@@ -27,30 +27,17 @@ public class VirtualCameraListener {
     private boolean increaseFocal;
     private boolean decreaseFocal;
 
-    private boolean stateChanged;
-
-    Scene attachedScene;
     VirtualCamera camera;
     World world;
 
-    public VirtualCameraListener(Scene scene, VirtualCamera camera, World world) {
-        attachedScene = scene;
+    private EventHandler<KeyEvent> keyPressedHandler;
+    private EventHandler<KeyEvent> keyReleasedHandler;
+
+    public VirtualCameraListener( VirtualCamera camera, World world) {
         this.camera = camera;
         this.world = world;
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, buildKeyPressedHandler());
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, buildKeyReleasedHandler());
-
-        final long startNanoTime = System.nanoTime();
-        new AnimationTimer()
-        {
-            public void handle(long currentNanoTime)
-            {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                world.transform(buildTransformationMatrix());
-                camera.draw();
-            }
-        }.start();
-
+        keyPressedHandler=buildKeyPressedHandler();
+        keyReleasedHandler=buildKeyReleasedHandler();
     }
 
     public Matrix buildTransformationMatrix() {
@@ -80,9 +67,9 @@ public class VirtualCameraListener {
         if (rotateCounterclockwise)
             transformation = transformation.multiply(TransformationMatrix.ROTATE_CLOCKWISE);
         if (increaseFocal)
-            camera.setFieldOfView(camera.getFieldOfView() + 20d);
+            camera.setFieldOfView(camera.getFieldOfView() * 1.05d);
         if (decreaseFocal)
-            camera.setFieldOfView(camera.getFieldOfView() - 20d);
+            camera.setFieldOfView(camera.getFieldOfView() / 1.05d);
         return transformation;
     }
 
@@ -96,7 +83,7 @@ public class VirtualCameraListener {
                 moveLeft = true;
             if (keyEvent.getCode() == KeyCode.D)
                 moveRight = true;
-            if (keyEvent.getCode() == KeyCode.Z)
+            if (keyEvent.getCode() == KeyCode.SHIFT)
                 moveDown = true;
             if (keyEvent.getCode() == KeyCode.SPACE)
                 moveUp = true;
@@ -129,7 +116,7 @@ public class VirtualCameraListener {
                 moveLeft = false;
             if (keyEvent.getCode() == KeyCode.D)
                 moveRight = false;
-            if (keyEvent.getCode() == KeyCode.Z)
+            if (keyEvent.getCode() == KeyCode.SHIFT)
                 moveDown = false;
             if (keyEvent.getCode() == KeyCode.SPACE)
                 moveUp = false;
@@ -150,5 +137,13 @@ public class VirtualCameraListener {
             if (keyEvent.getCode() == KeyCode.MINUS)
                 decreaseFocal = false;
         };
+    }
+
+    public EventHandler<KeyEvent> getKeyPressedHandler() {
+        return keyPressedHandler;
+    }
+
+    public EventHandler<KeyEvent> getKeyReleasedHandler() {
+        return keyReleasedHandler;
     }
 }
