@@ -26,50 +26,50 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, (keyEvent -> {
-            //scene.addEventHandler(KeyEvent.KEY_PRESSED,(keyEvent -> {
-            //keyEvent.consume();
-            Matrix transformation = new Matrix(4, 4);
-            if (keyEvent.getCode() == KeyCode.W)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_FORWARD);
-            if (keyEvent.getCode() == KeyCode.S)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_BACKWARD);
-            if (keyEvent.getCode() == KeyCode.A)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_LEFT);
-            if (keyEvent.getCode() == KeyCode.D)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_RIGHT);
-            if (keyEvent.getCode() == KeyCode.Z)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_DOWN);
-            if (keyEvent.getCode() == KeyCode.SPACE)
-                transformation = transformation.multiply(TransformationMatrix.MOVE_UP);
-            if (keyEvent.getCode() == KeyCode.UP)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_UP);
-            if (keyEvent.getCode() == KeyCode.DOWN)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_DOWN);
-            if (keyEvent.getCode() == KeyCode.LEFT)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_LEFT);
-            if (keyEvent.getCode() == KeyCode.RIGHT)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_RIGHT);
-            if (keyEvent.getCode() == KeyCode.E)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_COUNTERCLOCKWISE);
-            if (keyEvent.getCode() == KeyCode.Q)
-                transformation = transformation.multiply(TransformationMatrix.ROTATE_CLOCKWISE);
+        VirtualCameraListener listener = new VirtualCameraListener(scene,camera,world);
 
-            if (keyEvent.getCode() == KeyCode.EQUALS)
-            {
-                camera.setFieldOfView(camera.getFieldOfView()+20d);
-                System.out.println(camera.getFieldOfView());
-            }
-            if (keyEvent.getCode() == KeyCode.MINUS)
-            {
-                camera.setFieldOfView(camera.getFieldOfView()-20d);
-                System.out.println(camera.getFieldOfView());;
-            }
-
-
-            world.transform(transformation);
-            camera.draw();
-        }));
+//        scene.addEventFilter(KeyEvent.KEY_PRESSED, (keyEvent -> {
+//            //scene.addEventHandler(KeyEvent.KEY_PRESSED,(keyEvent -> {
+//            //keyEvent.consume();
+//            Matrix transformation = new Matrix(4, 4);
+//            if (keyEvent.getCode() == KeyCode.W)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_FORWARD);
+//            if (keyEvent.getCode() == KeyCode.S)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_BACKWARD);
+//            if (keyEvent.getCode() == KeyCode.A)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_LEFT);
+//            if (keyEvent.getCode() == KeyCode.D)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_RIGHT);
+//            if (keyEvent.getCode() == KeyCode.Z)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_DOWN);
+//            if (keyEvent.getCode() == KeyCode.SPACE)
+//                transformation = transformation.multiply(TransformationMatrix.MOVE_UP);
+//            if (keyEvent.getCode() == KeyCode.UP)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_UP);
+//            if (keyEvent.getCode() == KeyCode.DOWN)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_DOWN);
+//            if (keyEvent.getCode() == KeyCode.LEFT)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_LEFT);
+//            if (keyEvent.getCode() == KeyCode.RIGHT)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_RIGHT);
+//            if (keyEvent.getCode() == KeyCode.E)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_COUNTERCLOCKWISE);
+//            if (keyEvent.getCode() == KeyCode.Q)
+//                transformation = transformation.multiply(TransformationMatrix.ROTATE_CLOCKWISE);
+//
+//            if (keyEvent.getCode() == KeyCode.EQUALS)
+//            {
+//                camera.setFieldOfView(camera.getFieldOfView()+20d);
+//            }
+//            if (keyEvent.getCode() == KeyCode.MINUS)
+//            {
+//                camera.setFieldOfView(camera.getFieldOfView()-20d);
+//            }
+//
+//
+//            world.transform(transformation);
+//            camera.draw();
+//        }));
 
 
     }
