@@ -1,7 +1,8 @@
-package main.java.sample;
+package main.java.sample.shapes;
 
 
 import javafx.scene.paint.Color;
+import main.java.sample.matrix.Matrix;
 
 public class Edge {
     public Vector3f getStart() {
@@ -42,16 +43,16 @@ public class Edge {
     }
 
 
-    public Edge projectTo2D(double screenWidth, double screenHeight, double fieldOfView) {
+    public Edge projectTo2D(double screenWidth, double screenHeight, double distanceToProjectionPlane) {
         return new Edge(
-                start.projectTo2D(screenWidth,screenHeight,fieldOfView),
-                end.projectTo2D(screenWidth,screenHeight,fieldOfView),
+                start.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane),
+                end.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane),
                 getColor()
         );
     }
 
-    public boolean isVisible(){
-        return start.getZ()>0 || end.getZ() > 0;
+    public boolean isVisible() {
+        return start.getZ() > 0 && end.getZ() > 0;
     }
 
     public Color getColor() {

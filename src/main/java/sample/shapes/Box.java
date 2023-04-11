@@ -1,4 +1,4 @@
-package main.java.sample;
+package main.java.sample.shapes;
 
 import javafx.scene.paint.Color;
 

@@ -1,7 +1,11 @@
-package main.java.sample;
+package main.java.sample.world;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
+import main.java.sample.matrix.Matrix;
+import main.java.sample.shapes.Drawable;
+import main.java.sample.shapes.Edge;
+import main.java.sample.shapes.Vector3f;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,8 +14,8 @@ import java.util.stream.Collectors;
 
 public class World {
     private List<Drawable> drawables;
-    List<Edge> edges;
-    List<Vector3f> points;
+    private List<Edge> edges;
+    private List<Vector3f> points;
 
     public World() {
         drawables = new ArrayList<>();
@@ -39,12 +43,12 @@ public class World {
     }
 
 
-    public void draw(final GraphicsContext graphics, final double screenWidth, final double screenHeight, final double fieldOfView) {
+    public void draw(final GraphicsContext graphics, final double screenWidth, final double screenHeight, final double distanceToProjectionPlane) {
         graphics.setStroke(Paint.valueOf("BLACK"));
         graphics.fillRect(0, 0, screenWidth, screenHeight);
 
         List<Edge> projectedTriangles = edges.stream()
-                .map((edge) -> edge.projectTo2D(screenWidth, screenHeight, fieldOfView))
+                .map((edge) -> edge.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .filter(Edge::isVisible)
                 .sorted(Comparator.comparingDouble(e -> -(e.getStart().getZ() + e.getEnd().getZ()) / 2))
                 .collect(Collectors.toList());

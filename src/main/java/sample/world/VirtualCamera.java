@@ -1,4 +1,4 @@
-package main.java.sample;
+package main.java.sample.world;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -6,6 +6,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import main.java.sample.input.VirtualCameraListener;
+import main.java.sample.shapes.Box;
 
 public class VirtualCamera extends Canvas {
 
@@ -13,11 +15,11 @@ public class VirtualCamera extends Canvas {
     private VirtualCameraListener listener;
     private World world;
     private int screenWidth, screenHeight;
-    private double fieldOfView;
+    private double distanceToProjectionPlane;
 
-    public VirtualCamera(World world, int screenWidth,int screenHeight, double fieldOfView){
+    public VirtualCamera(World world, int screenWidth,int screenHeight, double distanceToProjectionPlane){
         super(screenWidth, screenHeight);
-        this.fieldOfView=fieldOfView;
+        this.distanceToProjectionPlane=distanceToProjectionPlane;
         this.screenHeight=screenHeight;
         this.screenWidth=screenWidth;
         graphics = getGraphicsContext2D();
@@ -36,7 +38,7 @@ public class VirtualCamera extends Canvas {
 
 
         listener = new VirtualCameraListener(this,world);
-        world.draw(graphics, screenWidth,screenHeight,fieldOfView);
+        world.draw(graphics, screenWidth,screenHeight,distanceToProjectionPlane);
         final long startNanoTime = System.nanoTime();
         new AnimationTimer()
         {
@@ -50,16 +52,16 @@ public class VirtualCamera extends Canvas {
     }
 
     public void draw(){
-        world.draw(graphics, screenWidth,screenHeight,fieldOfView);
+        world.draw(graphics, screenWidth,screenHeight,distanceToProjectionPlane);
     }
 
 
-    public double getFieldOfView() {
-        return fieldOfView;
+    public double getDistanceToProjectionPlane() {
+        return distanceToProjectionPlane;
     }
 
-    public void setFieldOfView(double fieldOfView) {
-        this.fieldOfView = fieldOfView;
+    public void setDistanceToProjectionPlane(double distanceToProjectionPlane) {
+        this.distanceToProjectionPlane = distanceToProjectionPlane;
     }
 
     public EventHandler<KeyEvent> getKeyPressedHandler() {

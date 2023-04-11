@@ -1,4 +1,6 @@
-package main.java.sample;
+package main.java.sample.matrix;
+
+import main.java.sample.shapes.Vector3f;
 
 public class Matrix {
     private int rows;
@@ -22,7 +24,7 @@ public class Matrix {
         return this;
     }
 
-    public Matrix buildRotationMatrix(double phi,RotationType rotationType) {
+    public Matrix buildRotationMatrix(double phi, RotationType rotationType) {
         switch (rotationType){
             case X_AXIS -> {
                 set(1,1,Math.cos(phi));

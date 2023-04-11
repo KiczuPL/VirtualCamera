@@ -1,12 +1,12 @@
-package main.java.sample;
+package main.java.sample.input;
 
-import com.sun.webkit.ThemeClient;
-import javafx.animation.AnimationTimer;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import main.java.sample.matrix.Matrix;
+import main.java.sample.matrix.TransformationMatrix;
+import main.java.sample.world.VirtualCamera;
+import main.java.sample.world.World;
 
 public class VirtualCameraListener {
     private boolean moveForward;
@@ -69,14 +69,14 @@ public class VirtualCameraListener {
         if (rotateCounterclockwise)
             transformation = transformation.multiply(transformationMatrix.ROTATE_CLOCKWISE);
         if (increaseFocal){
-            double newFocal = camera.getFieldOfView() * 1.05d;
-            camera.setFieldOfView(newFocal);
+            double newFocal = camera.getDistanceToProjectionPlane() * 1.05d;
+            camera.setDistanceToProjectionPlane(newFocal);
             //transformationMatrix.rescaleSteps(newFocal);
         }
 
         if (decreaseFocal){
-            double newFocal = camera.getFieldOfView() / 1.05d;
-            camera.setFieldOfView(newFocal);
+            double newFocal = camera.getDistanceToProjectionPlane() / 1.05d;
+            camera.setDistanceToProjectionPlane(newFocal);
             //transformationMatrix.rescaleSteps(newFocal);
         }
         return transformation;

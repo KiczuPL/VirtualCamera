@@ -1,4 +1,4 @@
-package main.java.sample;
+package main.java.sample.matrix;
 
 public class TransformationMatrix {
 
