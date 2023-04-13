@@ -20,6 +20,10 @@ public class Vector3f {
         this.vector = vector;
     }
 
+    public double getDistanceFromCenter(){
+        return Math.sqrt(getX()*getX()+getY()*getY()+getZ()*getZ());
+    }
+
     public void transform(Matrix matrix) {
         vector = matrix.multiplyByVector(vector);
     }
@@ -29,13 +33,6 @@ public class Vector3f {
                 screenWidth / 2d + (getX() * distanceToProjectionPlane) / getZ(),
                 screenHeight / 2d - (getY() * distanceToProjectionPlane) / getZ(),
                 getZ());
-
-
-//        Vector3f v = new Vector3f(
-//                screenWidth / 2d + (getX() * fov) / (getZ() > 0 ? getZ() : .001d),
-//                screenHeight / 2d - (getY() * fov) / (getZ() > 0 ? getZ() : .001d),
-//                getZ());
-        //System.out.println(v.toString());
         return v;
     }
 

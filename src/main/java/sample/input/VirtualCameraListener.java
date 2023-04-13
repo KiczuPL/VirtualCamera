@@ -5,6 +5,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.java.sample.matrix.Matrix;
 import main.java.sample.matrix.TransformationMatrix;
+import main.java.sample.world.DisplayMode;
 import main.java.sample.world.VirtualCamera;
 import main.java.sample.world.World;
 
@@ -112,6 +113,10 @@ public class VirtualCameraListener {
                 increaseFocal = true;
             if (keyEvent.getCode() == KeyCode.MINUS)
                 decreaseFocal = true;
+            if(keyEvent.getCode()==KeyCode.OPEN_BRACKET)
+                camera.setDisplayMode(DisplayMode.WALLS);
+            if(keyEvent.getCode()==KeyCode.CLOSE_BRACKET)
+                camera.setDisplayMode(DisplayMode.WIREFRAME);
         };
     }
 
