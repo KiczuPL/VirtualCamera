@@ -103,6 +103,14 @@ public class Polygon {
 
     }
 
+    public double getAveragePointDistance() {
+        return Math.sqrt(p1.getDistanceFromCenter()*p1.getDistanceFromCenter() +
+                p2.getDistanceFromCenter()*p2.getDistanceFromCenter()+
+                p3.getDistanceFromCenter()*p3.getDistanceFromCenter() +
+                p4.getDistanceFromCenter()*p4.getDistanceFromCenter());
+
+    }
+
     public double getLowestPointDistance() {
         double min = p1.getDistanceFromCenter();
         double tmp = p2.getDistanceFromCenter();

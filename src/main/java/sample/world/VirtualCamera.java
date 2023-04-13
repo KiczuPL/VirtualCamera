@@ -34,7 +34,7 @@ public class VirtualCamera extends Canvas {
         graphics = getGraphicsContext2D();
         this.world=world;
         graphics.setImageSmoothing(false);
-        displayMode=DisplayMode.WALLS;
+        displayMode=DisplayMode.WIREFRAME;
 
         double boxDepth = 300;
         double boxWidth = 700;
@@ -72,7 +72,7 @@ public class VirtualCamera extends Canvas {
     }
 
     public void drawWireframes(){
-        graphics.setStroke(Paint.valueOf("BLACK"));
+        graphics.setFill(Paint.valueOf("BLACK"));
         graphics.fillRect(0, 0, screenWidth, screenHeight);
 
         List<Edge> projectedTriangles = world.getEdges().stream()
@@ -94,7 +94,7 @@ public class VirtualCamera extends Canvas {
 
         List<Polygon> projectedPolygons = world.getPolygons().stream()
                 .filter(Polygon::isVisible)
-                .sorted(Comparator.comparingDouble(Polygon::getBiggestPointDistance).reversed())
+                .sorted(Comparator.comparingDouble(Polygon::getAveragePointDistance).reversed())
                 .map((polygon)->polygon.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .collect(Collectors.toList());
         //System.out.println(projectedPolygons.toString());
