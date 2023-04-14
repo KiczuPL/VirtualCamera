@@ -1,19 +1,32 @@
 package main.java.sample.shapes;
 
+import com.sun.javafx.scene.control.TabObservableList;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Box implements Drawable {
     private List<Edge> edgeList;
     private List<Vector3f> pointList;
     private List<Polygon> polygonList;
+    private List<Triangle> traingleList;
+
+    public Color genColor(long seed){
+        Random rand = new Random(seed);
+        int red = rand.nextInt(255);
+        int green = rand.nextInt(255);
+        int blue = rand.nextInt(255);
+        return Color.rgb(red,green,blue);
+    }
+
 
     public Box(double posX, double posY, double posZ, double width, double height, double depth, Color color) {
         edgeList = new ArrayList<>();
         pointList = new ArrayList<>();
         polygonList = new ArrayList<>();
+        traingleList = new ArrayList<>();
         Vector3f p1 = new Vector3f(posX, posY, posZ);
         Vector3f p2 = new Vector3f(posX + width, posY, posZ);
         Vector3f p3 = new Vector3f(posX, posY, posZ + depth);
@@ -31,6 +44,30 @@ public class Box implements Drawable {
         polygonList.add(new Polygon(p1,p3,p7,p5));
         polygonList.add(new Polygon(p1,p2,p6,p5));
 
+        //bottom
+        Color c = genColor(1L);
+        traingleList.add(new Triangle(p1,p2,p3,c));
+        traingleList.add(new Triangle(p2,p4,p3,c));
+        //top
+        c = genColor(2L);
+        traingleList.add(new Triangle(p5,p6,p7,c));
+        traingleList.add(new Triangle(p6,p7,p8,c));
+        //back
+        c = genColor(3L);
+        traingleList.add(new Triangle(p3,p4,p7,c));
+        traingleList.add(new Triangle(p4,p8,p7,c));
+        //front
+        c = genColor(4L);
+        traingleList.add(new Triangle(p1,p2,p5,c));
+        traingleList.add(new Triangle(p2,p6,p5,c));
+        //right
+        c = genColor(5L);
+        traingleList.add(new Triangle(p2,p4,p8,c));
+        traingleList.add(new Triangle(p2,p8,p6,c));
+        //left
+        c = genColor(6L);
+        traingleList.add(new Triangle(p1,p3,p7,c));
+        traingleList.add(new Triangle(p1,p5,p7,c));
 
 
 
@@ -94,5 +131,10 @@ public class Box implements Drawable {
     @Override
     public List<Polygon> getPolygonList() {
         return polygonList;
+    }
+
+    @Override
+    public List<Triangle> getTriangleList() {
+        return traingleList;
     }
 }

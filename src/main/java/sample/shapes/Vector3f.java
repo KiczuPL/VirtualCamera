@@ -83,6 +83,53 @@ public class Vector3f {
         return this;
     }
 
+    public Vector3f crossProduct(Vector3f v) {
+        return new Vector3f(
+                getY() * v.getZ() - getZ() * v.getY(),
+                getX() * v.getZ() - getZ() * v.getX(),
+                getX() * v.getY() - getY() * v.getX()
+        );
+    }
+
+    public Vector3f normalized() {
+        double length = Math.sqrt(getX()*getX()+getY()*getY()+getZ()*getZ());
+        return new Vector3f(
+                getX()/length,
+                getY()/length,
+                getZ()/length
+        );
+    }
+
+    public double length(){
+        return Math.sqrt(getX()*getX()+getY()*getY()+getZ()*getZ());
+    }
+
+    public Vector3f multiply(double d) {
+        return new Vector3f(
+                getX() * d, getY() * d, getZ() * d
+        );
+    }
+
+    public double dotProduct(Vector3f v) {
+        return getY() * v.getX() + getY() * v.getY() + getZ() * v.getZ();
+    }
+
+    public Vector3f subtract(Vector3f v) {
+        return new Vector3f(
+                getX() - v.getX(),
+                getY() - v.getY(),
+                getZ() - v.getZ()
+        );
+    }
+
+    public Vector3f add(Vector3f v) {
+        return new Vector3f(
+                getX() + v.getX(),
+                getY() + v.getY(),
+                getZ() + v.getZ()
+        );
+    }
+
 
     public double[] getVector() {
         return vector;

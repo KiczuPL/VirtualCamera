@@ -11,6 +11,7 @@ import main.java.sample.input.VirtualCameraListener;
 import main.java.sample.shapes.Box;
 import main.java.sample.shapes.Edge;
 import main.java.sample.shapes.Polygon;
+import main.java.sample.shapes.Triangle;
 
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class VirtualCamera extends Canvas {
         graphics = getGraphicsContext2D();
         this.world=world;
         graphics.setImageSmoothing(false);
-        displayMode=DisplayMode.WIREFRAME;
+        displayMode=DisplayMode.WALLS;
 
         double boxDepth = 300;
         double boxWidth = 700;
@@ -92,16 +93,28 @@ public class VirtualCamera extends Canvas {
         graphics.setFill(Paint.valueOf("BLACK"));
         graphics.fillRect(0, 0, screenWidth, screenHeight);
 
-        List<Polygon> projectedPolygons = world.getPolygons().stream()
-                .filter(Polygon::isVisible)
-                .sorted(Comparator.comparingDouble(Polygon::getAveragePointDistance).reversed())
-                .map((polygon)->polygon.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
+        List<Triangle> projectedTriangles = world.getTriangles().stream()
+                .filter(Triangle::isVisible)
+                .sorted(Comparator.comparingDouble(Triangle::getBiggestPointDistance).reversed())
+                .map((triangle)->triangle.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .collect(Collectors.toList());
-        //System.out.println(projectedPolygons.toString());
-        projectedPolygons.forEach(polygon -> {
-            graphics.setFill(polygon.getColor());
-            graphics.fillPolygon(polygon.getXPoints(), polygon.getYPoints(), 4);
+        System.out.println(projectedTriangles.toString());
+        projectedTriangles.forEach(triangle -> {
+            graphics.setFill(triangle.getColor());
+            graphics.fillPolygon(triangle.getXPoints(), triangle.getYPoints(), 3);
         });
+
+
+//        List<Polygon> projectedPolygons = world.getPolygons().stream()
+//                .filter(Polygon::isVisible)
+//                .sorted(Comparator.comparingDouble(Polygon::getAveragePointDistance).reversed())
+//                .map((polygon)->polygon.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
+//                .collect(Collectors.toList());
+//        //System.out.println(projectedPolygons.toString());
+//        projectedPolygons.forEach(polygon -> {
+//            graphics.setFill(polygon.getColor());
+//            graphics.fillPolygon(polygon.getXPoints(), polygon.getYPoints(), 4);
+//        });
     }
 
 

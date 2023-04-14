@@ -7,4 +7,5 @@ public interface Drawable {
     List<Edge> getEdgeList();
     List<Vector3f> getPointList();
     List<Polygon> getPolygonList();
+    List<Triangle> getTriangleList();
 }

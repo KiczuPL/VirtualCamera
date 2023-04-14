@@ -1,29 +1,24 @@
 package main.java.sample.world;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Paint;
 import main.java.sample.matrix.Matrix;
-import main.java.sample.shapes.Drawable;
-import main.java.sample.shapes.Edge;
-import main.java.sample.shapes.Polygon;
-import main.java.sample.shapes.Vector3f;
+import main.java.sample.shapes.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class World {
     private List<Drawable> drawables;
     private List<Edge> edges;
     private List<Vector3f> points;
     private List<Polygon> polygons;
+    private List<Triangle> triangles;
 
     public World() {
         drawables = new ArrayList<>();
         edges = new ArrayList<>();
         points = new ArrayList<>();
         polygons = new ArrayList<>();
+        triangles = new ArrayList<>();
     }
 
     public void addDrawable(Drawable drawable) {
@@ -31,6 +26,7 @@ public class World {
         edges.addAll(drawable.getEdgeList());
         points.addAll(drawable.getPointList());
         polygons.addAll(drawable.getPolygonList());
+        triangles.addAll(drawable.getTriangleList());
     }
 
     public void addEdge(Edge edge) {
@@ -50,4 +46,6 @@ public class World {
     public List<Polygon> getPolygons() {
         return polygons;
     }
+
+    public List<Triangle> getTriangles(){return triangles;}
 }
