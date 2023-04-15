@@ -21,6 +21,10 @@ public class Box implements Drawable {
         return Color.rgb(red,green,blue);
     }
 
+    public long getSeed(double posX, double posY, double posZ){
+        return (long)(posX*3+posY*5+posZ*13);
+    }
+
 
     public Box(double posX, double posY, double posZ, double width, double height, double depth, Color color) {
         edgeList = new ArrayList<>();
@@ -37,15 +41,33 @@ public class Box implements Drawable {
         Vector3f p7 = new Vector3f(posX, posY + height, posZ + depth);
         Vector3f p8 = new Vector3f(posX + width, posY + height, posZ + depth);
 
-        polygonList.add(new Polygon(p1,p2,p4,p3));
-        polygonList.add(new Polygon(p5,p6,p8,p7));
-        polygonList.add(new Polygon(p3,p4,p8,p7));
-        polygonList.add(new Polygon(p2,p4,p8,p6));
-        polygonList.add(new Polygon(p1,p3,p7,p5));
-        polygonList.add(new Polygon(p1,p2,p6,p5));
+        Color c;
+        //bottom
+        c = genColor((long)p1.getDistanceFromCenter());
+        polygonList.add(new Polygon(p1,p2,p4,p3,c));
+        //top
+        c = genColor((long)p2.getDistanceFromCenter());
+        polygonList.add(new Polygon(p5,p7,p8,p6,c));
+
+        //back
+        c = genColor((long)p3.getDistanceFromCenter());
+        polygonList.add(new Polygon(p3,p4,p8,p7,c));
+
+
+        //right
+        c = genColor((long)p4.getDistanceFromCenter());
+        polygonList.add(new Polygon(p2,p6,p8,p4,c));
+
+        //left
+        c = genColor((long)p5.getDistanceFromCenter());
+        polygonList.add(new Polygon(p1,p3,p7,p5,c));
+
+        //front
+        c = genColor((long)p8.getDistanceFromCenter());
+        polygonList.add(new Polygon(p1,p5,p6,p2,c));
 
         for(Polygon p : polygonList){
-            traingleList.addAll(p.triangularize(2));
+            traingleList.addAll(p.triangularize(1));
         }
 
         for(Triangle t : traingleList){
@@ -63,7 +85,7 @@ public class Box implements Drawable {
 //        traingleList.add(new Triangle(p2,p4,p3,c));
 //        //top
 //        c = genColor(2L);
-//        traingleList.add(new Triangle(p5,p6,p7,c));
+//        traingleList.add(new Triangle(p5,p7,p6,c));
 //        traingleList.add(new Triangle(p6,p7,p8,c));
 //        //back
 //        c = genColor(3L);
@@ -71,16 +93,16 @@ public class Box implements Drawable {
 //        traingleList.add(new Triangle(p4,p8,p7,c));
 //        //front
 //        c = genColor(4L);
-//        traingleList.add(new Triangle(p1,p2,p5,c));
-//        traingleList.add(new Triangle(p2,p6,p5,c));
+//        traingleList.add(new Triangle(p1,p5,p2,c));
+//        traingleList.add(new Triangle(p2,p5,p6,c));
 //        //right
 //        c = genColor(5L);
-//        traingleList.add(new Triangle(p2,p4,p8,c));
-//        traingleList.add(new Triangle(p2,p8,p6,c));
+//        traingleList.add(new Triangle(p2,p8,p4,c));
+//        traingleList.add(new Triangle(p2,p6,p8,c));
 //        //left
 //        c = genColor(6L);
 //        traingleList.add(new Triangle(p1,p3,p7,c));
-//        traingleList.add(new Triangle(p1,p5,p7,c));
+//        traingleList.add(new Triangle(p1,p7,p5,c));
 
 
 
@@ -88,14 +110,14 @@ public class Box implements Drawable {
 
 
 
-//        pointList.add(p1);
-//        pointList.add(p2);
-//        pointList.add(p3);
-//        pointList.add(p4);
-//        pointList.add(p5);
-//        pointList.add(p6);
-//        pointList.add(p7);
-//        pointList.add(p8);
+        pointList.add(p1);
+        pointList.add(p2);
+        pointList.add(p3);
+        pointList.add(p4);
+        pointList.add(p5);
+        pointList.add(p6);
+        pointList.add(p7);
+        pointList.add(p8);
 
         //bottom
         edgeList.add(new Edge(p1, p2, color));

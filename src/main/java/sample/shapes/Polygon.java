@@ -64,7 +64,7 @@ public class Polygon {
 //            triangularize(p2p3,p3,p4,p4p1,depth-1,result);
         }else{
             result.add(new Triangle(p1.multiply(1d),p2.multiply(1d),p3.multiply(1d),color));
-            result.add(new Triangle(p3.multiply(1d),p4.multiply(1d),p1.multiply(1d),color));
+            result.add(new Triangle(p1.multiply(1d),p3.multiply(1d),p4.multiply(1d),color));
         }
 
     }

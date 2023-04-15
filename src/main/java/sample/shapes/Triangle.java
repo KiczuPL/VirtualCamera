@@ -56,8 +56,16 @@ public class Triangle {
 
     public double getCenterPointDistance() {
         //return Math.sqrt(p1.add(p2).add(p3).multiply(0.3333333d).getDistanceFromCenter());
-        return p1.add(p2).add(p3).multiply(1d/3d).getDistanceFromCenter();
+        return p1.add(p2).add(p3).multiply(1d/3d).getZ();
     }
+
+    public double getAdvancedDistance() {
+        double d1 = Math.sqrt(p1.getX()*p1.getX() + p1.getY()*p1.getY()+p1.getZ()*p1.getZ());
+        double d2 = Math.sqrt(p2.getX()*p2.getX() + p2.getY()*p2.getY()+p2.getZ()*p2.getZ());
+        double d3 = Math.sqrt(p3.getX()*p3.getX() + p3.getY()*p3.getY()+p3.getZ()*p3.getZ());
+        return (d1+d2+1.7d*d3)/3d;
+    }
+
 
     public Triangle projectTo2D(double screenWidth, double screenHeight, double distanceToProjectionPlane) {
         return new Triangle(
@@ -69,7 +77,14 @@ public class Triangle {
     }
 
     public boolean isVisible() {
-        return p1.getZ() > 0 && p2.getZ() > 0 && p3.getZ() > 0;
+
+        double dot = p1.dotProduct(getNormalVector());
+        return p1.getZ() > 0 && p2.getZ() > 0 && p3.getZ() > 0 && dot < 0;
+    }
+
+
+    public Vector3f getNormalVector(){
+        return p2.subtract(p1).crossProduct(p3.subtract(p1));
     }
 
     public double[] getXPoints() {

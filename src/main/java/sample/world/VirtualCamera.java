@@ -37,18 +37,40 @@ public class VirtualCamera extends Canvas {
         graphics.setImageSmoothing(false);
         displayMode=DisplayMode.WALLS;
 
-        double boxDepth = 300;
-        double boxWidth = 700;
-        double boxWidthSpacing=100;
-        world.addDrawable(new Box(0,0,500,boxWidth,300,boxDepth, Color.RED));
-        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,500,boxWidth,300,boxDepth, Color.YELLOW));
-        world.addDrawable(new Box(0,0,900,boxWidth,300,boxDepth, Color.GREEN));
-        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,900,boxWidth,300,boxDepth, Color.BLUE));
+        double zOffset = 600;
+        double boxDepth = 500;
+        double boxWidth = 800;
+        double boxHeight = 500;
+        double boxWidthSpacing=190;
+        double boxHeightSpacing=190;
+        double boxDepthSpacing=190;
 
-        world.addDrawable(new Box(0,400,500,boxWidth,300,boxDepth, Color.WHITE));
-        world.addDrawable(new Box(boxWidth+boxWidthSpacing,400,500,boxWidth,300,boxDepth, Color.DEEPPINK));
-        world.addDrawable(new Box(0,400,900,boxWidth,300,boxDepth, Color.SANDYBROWN));
-        world.addDrawable(new Box(boxWidth+boxWidthSpacing,400,900,boxWidth,300,300, Color.CYAN));
+
+        world.addDrawable(new Box(0,0,zOffset,boxWidth,boxHeight,boxDepth, Color.RED));
+        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,zOffset,boxWidth,boxHeight,boxDepth, Color.YELLOW));
+        world.addDrawable(new Box(0,0,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.GREEN));
+        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.BLUE));
+
+        world.addDrawable(new Box(0,boxHeight+boxHeightSpacing,zOffset,boxWidth,boxHeight,boxDepth, Color.WHITE));
+        world.addDrawable(new Box(boxWidth+boxWidthSpacing,boxHeight+boxHeightSpacing,zOffset,boxWidth,boxHeight,boxDepth, Color.DEEPPINK));
+        world.addDrawable(new Box(0,boxHeight+boxHeightSpacing,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.SANDYBROWN));
+        world.addDrawable(new Box(boxWidth+boxWidthSpacing,boxHeight+boxHeightSpacing,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.CYAN));
+
+
+
+
+
+
+
+        //        world.addDrawable(new Box(0,0,500,boxWidth,300,boxDepth, Color.RED));
+//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,500,boxWidth,300,boxDepth, Color.YELLOW));
+//        world.addDrawable(new Box(0,0,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.GREEN));
+//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.BLUE));
+//
+//        world.addDrawable(new Box(0,300+boxHeightSpacing,500,boxWidth,300,boxDepth, Color.WHITE));
+//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,300+boxHeightSpacing,500,boxWidth,300,boxDepth, Color.DEEPPINK));
+//        world.addDrawable(new Box(0,300+boxHeightSpacing,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.SANDYBROWN));
+//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,300+boxHeightSpacing,800+boxDepthSpacing,boxWidth,300,300, Color.CYAN));
 
 
         listener = new VirtualCameraListener(this,world);
@@ -101,7 +123,7 @@ public class VirtualCamera extends Canvas {
 
         List<Triangle> projectedTriangles = world.getTriangles().parallelStream()
                 .filter(Triangle::isVisible)
-                .sorted(Comparator.comparingDouble(Triangle::getCenterPointDistance).reversed())
+                .sorted(Comparator.comparingDouble(Triangle::getAdvancedDistance).reversed())
                 .map((triangle)->triangle.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .collect(Collectors.toList());
         //System.out.println(projectedTriangles.toString());

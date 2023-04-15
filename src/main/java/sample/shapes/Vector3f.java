@@ -86,7 +86,7 @@ public class Vector3f {
     public Vector3f crossProduct(Vector3f v) {
         return new Vector3f(
                 getY() * v.getZ() - getZ() * v.getY(),
-                getX() * v.getZ() - getZ() * v.getX(),
+                getZ() * v.getX() - getX() * v.getZ(),
                 getX() * v.getY() - getY() * v.getX()
         );
     }
@@ -111,7 +111,7 @@ public class Vector3f {
     }
 
     public double dotProduct(Vector3f v) {
-        return getY() * v.getX() + getY() * v.getY() + getZ() * v.getZ();
+        return getX() * v.getX() + getY() * v.getY() + getZ() * v.getZ();
     }
 
     public Vector3f subtract(Vector3f v) {
