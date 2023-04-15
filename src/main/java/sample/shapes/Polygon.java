@@ -2,6 +2,8 @@ package main.java.sample.shapes;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Polygon {
@@ -39,6 +41,34 @@ public class Polygon {
                 getColor()
         );
     }
+    
+    public List<Triangle> triangularize(int depth){
+        List<Triangle> result = new ArrayList<>();
+        triangularize(p1,p2,p3,p4,depth,result);
+        return result;
+    }
+
+    private void triangularize(Vector3f p1,Vector3f p2,Vector3f p3,Vector3f p4, int depth, List<Triangle> result){
+        Vector3f center = p1.add(p2).add(p3).add(p4).multiply(0.25d);
+        if(depth > 0){
+            Vector3f p1p2 = p1.add(p2).multiply(0.5d);
+            Vector3f p2p3 = p2.add(p3).multiply(0.5d);
+            Vector3f p3p4 = p3.add(p4).multiply(0.5d);
+            Vector3f p4p1 = p4.add(p1).multiply(0.5d);
+            triangularize(p1,p1p2,center,p4p1,depth-1,result);
+            triangularize(p2,p2p3,center,p1p2,depth-1,result);
+            triangularize(p3,p3p4,center,p2p3,depth-1,result);
+            triangularize(p4,p4p1,center, p3p4,depth-1,result);
+
+//            triangularize(p1,p2,p2p3,p4p1,depth-1,result);
+//            triangularize(p2p3,p3,p4,p4p1,depth-1,result);
+        }else{
+            result.add(new Triangle(p1.multiply(1d),p2.multiply(1d),p3.multiply(1d),color));
+            result.add(new Triangle(p3.multiply(1d),p4.multiply(1d),p1.multiply(1d),color));
+        }
+
+    }
+    
 
     public Vector3f getP1() {
         return p1;
@@ -104,12 +134,19 @@ public class Polygon {
     }
 
     public double getAveragePointDistance() {
-        return Math.sqrt(p1.getDistanceFromCenter()*p1.getDistanceFromCenter() +
+        return Math.sqrt(
+                p1.getDistanceFromCenter()*p1.getDistanceFromCenter() +
                 p2.getDistanceFromCenter()*p2.getDistanceFromCenter()+
                 p3.getDistanceFromCenter()*p3.getDistanceFromCenter() +
                 p4.getDistanceFromCenter()*p4.getDistanceFromCenter());
-
     }
+
+    public double getDistanceFromWeightCenter() {
+        return Math.sqrt(
+                p1.add(p2).add(p3).add(p4).multiply(0.25d).getDistanceFromCenter());
+    }
+
+
 
     public double getLowestPointDistance() {
         double min = p1.getDistanceFromCenter();

@@ -12,7 +12,7 @@ public class Main extends Application {
 
     private final int screenWidth = 1280;
     private final int screenHeight = 720;
-    private double fieldOfView = 500d;
+    private double fieldOfView = 1500d;
 
 
     @Override

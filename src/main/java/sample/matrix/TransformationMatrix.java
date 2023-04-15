@@ -2,7 +2,7 @@ package main.java.sample.matrix;
 
 public class TransformationMatrix {
 
-    public double STEP = 10f;
+    public double STEP = 30f;
     public double ROTATION_STEP = Math.PI / 100d;
 
     public Matrix MOVE_FORWARD = new Matrix(4, 4).buildMoveMatrix(0, 0, -STEP);

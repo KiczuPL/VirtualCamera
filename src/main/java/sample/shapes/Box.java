@@ -44,30 +44,43 @@ public class Box implements Drawable {
         polygonList.add(new Polygon(p1,p3,p7,p5));
         polygonList.add(new Polygon(p1,p2,p6,p5));
 
-        //bottom
-        Color c = genColor(1L);
-        traingleList.add(new Triangle(p1,p2,p3,c));
-        traingleList.add(new Triangle(p2,p4,p3,c));
-        //top
-        c = genColor(2L);
-        traingleList.add(new Triangle(p5,p6,p7,c));
-        traingleList.add(new Triangle(p6,p7,p8,c));
-        //back
-        c = genColor(3L);
-        traingleList.add(new Triangle(p3,p4,p7,c));
-        traingleList.add(new Triangle(p4,p8,p7,c));
-        //front
-        c = genColor(4L);
-        traingleList.add(new Triangle(p1,p2,p5,c));
-        traingleList.add(new Triangle(p2,p6,p5,c));
-        //right
-        c = genColor(5L);
-        traingleList.add(new Triangle(p2,p4,p8,c));
-        traingleList.add(new Triangle(p2,p8,p6,c));
-        //left
-        c = genColor(6L);
-        traingleList.add(new Triangle(p1,p3,p7,c));
-        traingleList.add(new Triangle(p1,p5,p7,c));
+        for(Polygon p : polygonList){
+            traingleList.addAll(p.triangularize(2));
+        }
+
+        for(Triangle t : traingleList){
+            pointList.add(t.getP1());
+            pointList.add(t.getP2());
+            pointList.add(t.getP3());
+        }
+
+
+
+
+//        //bottom
+//        Color c = genColor(1L);
+//        traingleList.add(new Triangle(p1,p2,p3,c));
+//        traingleList.add(new Triangle(p2,p4,p3,c));
+//        //top
+//        c = genColor(2L);
+//        traingleList.add(new Triangle(p5,p6,p7,c));
+//        traingleList.add(new Triangle(p6,p7,p8,c));
+//        //back
+//        c = genColor(3L);
+//        traingleList.add(new Triangle(p3,p4,p7,c));
+//        traingleList.add(new Triangle(p4,p8,p7,c));
+//        //front
+//        c = genColor(4L);
+//        traingleList.add(new Triangle(p1,p2,p5,c));
+//        traingleList.add(new Triangle(p2,p6,p5,c));
+//        //right
+//        c = genColor(5L);
+//        traingleList.add(new Triangle(p2,p4,p8,c));
+//        traingleList.add(new Triangle(p2,p8,p6,c));
+//        //left
+//        c = genColor(6L);
+//        traingleList.add(new Triangle(p1,p3,p7,c));
+//        traingleList.add(new Triangle(p1,p5,p7,c));
 
 
 
@@ -75,14 +88,14 @@ public class Box implements Drawable {
 
 
 
-        pointList.add(p1);
-        pointList.add(p2);
-        pointList.add(p3);
-        pointList.add(p4);
-        pointList.add(p5);
-        pointList.add(p6);
-        pointList.add(p7);
-        pointList.add(p8);
+//        pointList.add(p1);
+//        pointList.add(p2);
+//        pointList.add(p3);
+//        pointList.add(p4);
+//        pointList.add(p5);
+//        pointList.add(p6);
+//        pointList.add(p7);
+//        pointList.add(p8);
 
         //bottom
         edgeList.add(new Edge(p1, p2, color));

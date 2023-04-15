@@ -59,8 +59,13 @@ public class VirtualCamera extends Canvas {
             public void handle(long currentNanoTime)
             {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+                double start = System.nanoTime();
                 world.transform(listener.buildTransformationMatrix());
+                double transformingTime = (System.nanoTime() - start)/ 1000000000000.0;
+                System.out.println("Transforming: "+transformingTime);
                 draw();
+                double drawingTime = (System.nanoTime() - transformingTime)/ 1000000000000.0;
+                System.out.println("Drawing: "+drawingTime);
             }
         }.start();
     }
@@ -90,24 +95,29 @@ public class VirtualCamera extends Canvas {
     }
 
     public void drawWalls(){
+        double start = System.nanoTime();
         graphics.setFill(Paint.valueOf("BLACK"));
         graphics.fillRect(0, 0, screenWidth, screenHeight);
 
-        List<Triangle> projectedTriangles = world.getTriangles().stream()
+        List<Triangle> projectedTriangles = world.getTriangles().parallelStream()
                 .filter(Triangle::isVisible)
-                .sorted(Comparator.comparingDouble(Triangle::getBiggestPointDistance).reversed())
+                .sorted(Comparator.comparingDouble(Triangle::getCenterPointDistance).reversed())
                 .map((triangle)->triangle.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .collect(Collectors.toList());
-        System.out.println(projectedTriangles.toString());
-        projectedTriangles.forEach(triangle -> {
+        //System.out.println(projectedTriangles.toString());
+        System.out.println("PROCESSED: "+(System.nanoTime()-start)/ 1000000000000.0);
+        start = System.nanoTime();
+        projectedTriangles.forEach((triangle) -> {
             graphics.setFill(triangle.getColor());
+            graphics.setStroke(triangle.getColor());
             graphics.fillPolygon(triangle.getXPoints(), triangle.getYPoints(), 3);
+            graphics.strokePolygon(triangle.getXPoints(), triangle.getYPoints(), 3);
         });
-
+        System.out.println("DRAWED: "+(System.nanoTime()-start)/ 1000000000000.0);
 
 //        List<Polygon> projectedPolygons = world.getPolygons().stream()
 //                .filter(Polygon::isVisible)
-//                .sorted(Comparator.comparingDouble(Polygon::getAveragePointDistance).reversed())
+//                .sorted(Comparator.comparingDouble(Polygon::getDistanceFromWeightCenter).reversed())
 //                .map((polygon)->polygon.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
 //                .collect(Collectors.toList());
 //        //System.out.println(projectedPolygons.toString());

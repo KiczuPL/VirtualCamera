@@ -2,6 +2,8 @@ package main.java.sample.shapes;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Triangle {
@@ -11,11 +13,15 @@ public class Triangle {
     private Vector3f p3;
     private Color color;
 
+    private List<Edge> edges;
+
     public Triangle(Vector3f p1, Vector3f p2, Vector3f p3, Color color) {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
         this.color = color;
+        edges = new ArrayList<>();
+
     }
 
     public Triangle(Vector3f p1, Vector3f p2, Vector3f p3) {
@@ -46,6 +52,11 @@ public class Triangle {
                 p2.getDistanceFromCenter()*p2.getDistanceFromCenter()+
                 p3.getDistanceFromCenter()*p3.getDistanceFromCenter());
 
+    }
+
+    public double getCenterPointDistance() {
+        //return Math.sqrt(p1.add(p2).add(p3).multiply(0.3333333d).getDistanceFromCenter());
+        return p1.add(p2).add(p3).multiply(1d/3d).getDistanceFromCenter();
     }
 
     public Triangle projectTo2D(double screenWidth, double screenHeight, double distanceToProjectionPlane) {
