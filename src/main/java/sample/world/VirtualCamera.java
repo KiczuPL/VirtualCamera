@@ -10,7 +10,6 @@ import javafx.scene.paint.Paint;
 import main.java.sample.input.VirtualCameraListener;
 import main.java.sample.shapes.Box;
 import main.java.sample.shapes.Edge;
-import main.java.sample.shapes.Polygon;
 import main.java.sample.shapes.Triangle;
 
 import java.util.Comparator;
@@ -55,23 +54,7 @@ public class VirtualCamera extends Canvas {
         world.addDrawable(new Box(boxWidth+boxWidthSpacing,boxHeight+boxHeightSpacing,zOffset,boxWidth,boxHeight,boxDepth, Color.DEEPPINK));
         world.addDrawable(new Box(0,boxHeight+boxHeightSpacing,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.SANDYBROWN));
         world.addDrawable(new Box(boxWidth+boxWidthSpacing,boxHeight+boxHeightSpacing,zOffset+boxDepth+boxDepthSpacing,boxWidth,boxHeight,boxDepth, Color.CYAN));
-
-
-
-
-
-
-
-        //        world.addDrawable(new Box(0,0,500,boxWidth,300,boxDepth, Color.RED));
-//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,500,boxWidth,300,boxDepth, Color.YELLOW));
-//        world.addDrawable(new Box(0,0,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.GREEN));
-//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,0,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.BLUE));
-//
-//        world.addDrawable(new Box(0,300+boxHeightSpacing,500,boxWidth,300,boxDepth, Color.WHITE));
-//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,300+boxHeightSpacing,500,boxWidth,300,boxDepth, Color.DEEPPINK));
-//        world.addDrawable(new Box(0,300+boxHeightSpacing,800+boxDepthSpacing,boxWidth,300,boxDepth, Color.SANDYBROWN));
-//        world.addDrawable(new Box(boxWidth+boxWidthSpacing,300+boxHeightSpacing,800+boxDepthSpacing,boxWidth,300,300, Color.CYAN));
-
+        System.out.println(world.getTriangles().size() + " triangles");
 
         listener = new VirtualCameraListener(this,world);
         draw();
@@ -84,10 +67,8 @@ public class VirtualCamera extends Canvas {
                 double start = System.nanoTime();
                 world.transform(listener.buildTransformationMatrix());
                 double transformingTime = (System.nanoTime() - start)/ 1000000000000.0;
-                System.out.println("Transforming: "+transformingTime);
                 draw();
                 double drawingTime = (System.nanoTime() - transformingTime)/ 1000000000000.0;
-                System.out.println("Drawing: "+drawingTime);
             }
         }.start();
     }
@@ -126,8 +107,6 @@ public class VirtualCamera extends Canvas {
                 .sorted(Comparator.comparingDouble(Triangle::getAdvancedDistance).reversed())
                 .map((triangle)->triangle.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
                 .collect(Collectors.toList());
-        //System.out.println(projectedTriangles.toString());
-        System.out.println("PROCESSED: "+(System.nanoTime()-start)/ 1000000000000.0);
         start = System.nanoTime();
         projectedTriangles.forEach((triangle) -> {
             graphics.setFill(triangle.getColor());
@@ -135,18 +114,6 @@ public class VirtualCamera extends Canvas {
             graphics.fillPolygon(triangle.getXPoints(), triangle.getYPoints(), 3);
             graphics.strokePolygon(triangle.getXPoints(), triangle.getYPoints(), 3);
         });
-        System.out.println("DRAWED: "+(System.nanoTime()-start)/ 1000000000000.0);
-
-//        List<Polygon> projectedPolygons = world.getPolygons().stream()
-//                .filter(Polygon::isVisible)
-//                .sorted(Comparator.comparingDouble(Polygon::getDistanceFromWeightCenter).reversed())
-//                .map((polygon)->polygon.projectTo2D(screenWidth, screenHeight, distanceToProjectionPlane))
-//                .collect(Collectors.toList());
-//        //System.out.println(projectedPolygons.toString());
-//        projectedPolygons.forEach(polygon -> {
-//            graphics.setFill(polygon.getColor());
-//            graphics.fillPolygon(polygon.getXPoints(), polygon.getYPoints(), 4);
-//        });
     }
 
 
